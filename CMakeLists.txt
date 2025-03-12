@@ -37,7 +37,7 @@ set_target_properties(libuv PROPERTIES
 # 라이브러리 추가
 add_library(usockets STATIC IMPORTED)
 set_target_properties(usockets PROPERTIES
-    IMPORTED_LOCATION ${VCPKG_INSTALLED_DIR}/lib/libusockets.a
+    IMPORTED_LOCATION ${VCPKG_INSTALLED_DIR}/lib/libuSockets.a
 )
 
 add_library(zlib STATIC IMPORTED)
