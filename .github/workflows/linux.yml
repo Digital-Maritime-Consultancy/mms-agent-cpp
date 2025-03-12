@@ -1,0 +1,36 @@
+name: Build and test on Linux
+on:
+  workflow_call:
+
+concurrency:
+  group: "${{ github.ref }}-linux"
+  cancel-in-progress: true
+
+jobs:
+  linux:
+    runs-on: ubuntu-latest
+    # Specify an image from hub.docker.com
+    # container:
+      # image: debian:10-slim
+      # options:
+    timeout-minutes: 60
+    steps:
+    - uses: actions/checkout@v3
+    - name: Setup sccache
+      uses: hendrikmuhs/ccache-action@main
+      with:
+        key: ${{ github.job }}
+        max-size: 1000M
+        variant: sccache
+    - name: Setup vcpkg
+      run: |
+        ./vcpkg/bootstrap-vcpkg.sh
+        cmake -B build -S .
+        cmake --build build
+    - uses: actions/upload-artifact@v4
+      if: success()
+      with:
+        name: "linux-artifacts"
+        retention-days: 28
+        path: |-
+          build/app/MmsTestApp
