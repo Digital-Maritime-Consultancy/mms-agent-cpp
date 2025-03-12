@@ -36,9 +36,16 @@ set_target_properties(libuv PROPERTIES
 
 # 라이브러리 추가
 add_library(usockets STATIC IMPORTED)
-set_target_properties(usockets PROPERTIES
-    IMPORTED_LOCATION ${VCPKG_INSTALLED_DIR}/lib/libuSockets.a
-)
+if(CMAKE_SYSTEM_NAME STREQUAL "Darwin")
+    set_target_properties(usockets PROPERTIES
+        IMPORTED_LOCATION ${VCPKG_INSTALLED_DIR}/lib/libusockets.a
+    )
+elseif(CMAKE_SYSTEM_NAME STREQUAL "Linux")
+    set_target_properties(usockets PROPERTIES
+        IMPORTED_LOCATION ${VCPKG_INSTALLED_DIR}/lib/libuSockets.a
+    )
+endif()
+
 
 add_library(zlib STATIC IMPORTED)
 set_target_properties(zlib PROPERTIES
