@@ -16,6 +16,9 @@ jobs:
     timeout-minutes: 60
     steps:
     - uses: actions/checkout@v3
+      with:
+        submodules: true
+        submodules_recursive: true
     - name: Setup sccache
       uses: hendrikmuhs/ccache-action@main
       with:
