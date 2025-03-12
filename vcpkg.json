@@ -6,6 +6,7 @@
     "fmt",
     "catch2",
     "uwebsockets",
+    "usockets",
     "zlib",
     "libuv",
     "protobuf"
