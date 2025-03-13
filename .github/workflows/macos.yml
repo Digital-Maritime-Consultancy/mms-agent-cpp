@@ -34,7 +34,7 @@ jobs:
         cmake -B build -S .
     - name: List files in vcpkg folder
       run: |
-        ls -la ./build/vcpkg_installed/x64-osx/lib
+        ls -R /Users/runner/work/mms-agent-cpp/mms-agent-cpp/build
     - name: Build
       run: |
         cmake --build build
