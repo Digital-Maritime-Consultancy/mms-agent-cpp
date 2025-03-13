@@ -31,12 +31,9 @@ jobs:
     - name: Setup vcpkg
       run: |
         ./vcpkg/bootstrap-vcpkg.sh
-        cmake -B build -S .
-    - name: List files in vcpkg folder
-      run: |
-        ls -R /Users/runner/work/mms-agent-cpp/mms-agent-cpp/build
     - name: Build
       run: |
+        cmake -B build -S .
         cmake --build build
     - uses: actions/upload-artifact@v4
       if: success()
