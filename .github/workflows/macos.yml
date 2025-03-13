@@ -32,6 +32,11 @@ jobs:
       run: |
         ./vcpkg/bootstrap-vcpkg.sh
         cmake -B build -S .
+    - name: List files in vcpkg folder
+      run: |
+        ls -la ./build/vcpkg_installed/x64-osx/lib
+    - name: Build
+      run: |
         cmake --build build
     - uses: actions/upload-artifact@v4
       if: success()
