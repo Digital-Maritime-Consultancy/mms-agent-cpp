@@ -17,6 +17,6 @@ target_include_directories(MmsAgent
         ${CMAKE_CURRENT_SOURCE_DIR}/src
 )
 
-target_link_libraries(MmsAgent PRIVATE fmt::fmt fmt::fmt-header-only usockets zlib libuv protobuf::libprotobuf) #uWebSockets::uWebSockets
+target_link_libraries(MmsAgent PRIVATE fmt::fmt fmt::fmt-header-only ixwebsocket::ixwebsocket protobuf::libprotobuf) #uWebSockets::uWebSockets
 target_include_directories(MmsAgent PRIVATE ${UWEBSOCKETS_INCLUDE_DIRS})
 add_subdirectory(test)

@@ -27,33 +27,6 @@ endif()
 # Include 경로 추가
 include_directories(
     ${VCPKG_INSTALLED_DIR}/include
-    ${VCPKG_INSTALLED_DIR}/include/uWebSockets
-    ${VCPKG_INSTALLED_DIR}/include/usockets
-    ${VCPKG_INSTALLED_DIR}/include/zlib
-    ${VCPKG_INSTALLED_DIR}/include/libuv
-)
-
-add_library(libuv STATIC IMPORTED)
-set_target_properties(libuv PROPERTIES
-    IMPORTED_LOCATION ${VCPKG_INSTALLED_DIR}/lib/libuv.a
-)
-
-# 라이브러리 추가
-add_library(usockets STATIC IMPORTED)
-if(CMAKE_SYSTEM_NAME STREQUAL "Darwin")
-    set_target_properties(usockets PROPERTIES
-        IMPORTED_LOCATION ${VCPKG_INSTALLED_DIR}/lib/libusockets.a
-    )
-elseif(CMAKE_SYSTEM_NAME STREQUAL "Linux")
-    set_target_properties(usockets PROPERTIES
-        IMPORTED_LOCATION ${VCPKG_INSTALLED_DIR}/lib/libuSockets.a
-    )
-endif()
-
-
-add_library(zlib STATIC IMPORTED)
-set_target_properties(zlib PROPERTIES
-    IMPORTED_LOCATION ${VCPKG_INSTALLED_DIR}/lib/libz.a
 )
 
 
@@ -64,6 +37,7 @@ set_target_properties(zlib PROPERTIES
 find_package(fmt CONFIG REQUIRED)
 find_package(Catch2 CONFIG REQUIRED)
 find_package(Protobuf CONFIG REQUIRED)
+find_package(IXWebSocket CONFIG REQUIRED)
 
 # Ensure include directories are set up
 # include_directories(${uWebSockets_INCLUDE_DIRS})
