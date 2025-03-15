@@ -5,9 +5,7 @@
 #include <ctime>
 #include <map>
 #include <thread>
-#include <ixwebsocket/IXNetSystem.h>
 #include <ixwebsocket/IXWebSocket.h>
-#include <ixwebsocket/IXUserAgent.h>
 
 namespace Mms {
     enum class AgentState {
@@ -17,39 +15,30 @@ namespace Mms {
     };
 
     class Agent {
-        public:
-            Agent(std::string mrn, bool use_reconnect_token);
-            ~Agent();
+    public:
+        Agent(const std::string& mrn);
+        ~Agent();
+    
+        void disconnectWebSocket();
+        void cleanUp();
+        bool connect(const std::string& host, int port);
         
-            void clean_up();
-            void try_connect_edge_router();
-            bool connect(std::string host, int port);
-            bool send_message(std::string recipient, const std::vector<uint8_t>& data);
-            bool receive_message();
-            void disconnect();
+        bool sendMessage(const std::string& message);
+        AgentState getStatus() const;
+    
+    private:
+        std::string mrn;
+        AgentState state;
+        std::condition_variable cv;
+        ix::WebSocket webSocket;
         
-        private:
-            std::string mrn_;
-            std::string host_;
-            int port_;
-            AgentState state_;
-           
-            std::mutex mutex;
-            std::condition_variable cv;
-
-            std::shared_ptr<ix::WebSocket> ws;
-            std::queue<std::string> messageQueue;
-            std::thread eventLoopThread;
-
-            std::queue<std::vector<uint8_t>> outgoingMessages_;
-            std::mutex queueMutex_;
-            std::condition_variable queueCondition_;
-            
-            bool shutdown_;
-            bool useReconnectToken_;
-            std::map<std::string, std::chrono::system_clock::time_point> recentNotifies_;
+        std::mutex stateMutex;
+        std::condition_variable reconnectCond;
+        std::atomic<bool> shutdown;
+        std::thread reconnectThread;
         
-            void MessageHandler();
-            void ConnectionHandler();
+        bool connectWebSocket(const std::string& host, int port);
+        bool connectOverMmtp(const bool connectAuth);
+        void reconnectHandler();
     };
 }
